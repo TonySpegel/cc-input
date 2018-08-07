@@ -29,33 +29,37 @@ declare global {
 declare global {
 
   namespace StencilComponents {
-    interface MyComponent {
-      'first': string;
-      'last': string;
+    interface CcInput {
+      'hours': string;
+      'milliseconds': string;
+      'minutes': string;
+      'seconds': string;
     }
   }
 
-  interface HTMLMyComponentElement extends StencilComponents.MyComponent, HTMLStencilElement {}
+  interface HTMLCcInputElement extends StencilComponents.CcInput, HTMLStencilElement {}
 
-  var HTMLMyComponentElement: {
-    prototype: HTMLMyComponentElement;
-    new (): HTMLMyComponentElement;
+  var HTMLCcInputElement: {
+    prototype: HTMLCcInputElement;
+    new (): HTMLCcInputElement;
   };
   interface HTMLElementTagNameMap {
-    'my-component': HTMLMyComponentElement;
+    'cc-input': HTMLCcInputElement;
   }
   interface ElementTagNameMap {
-    'my-component': HTMLMyComponentElement;
+    'cc-input': HTMLCcInputElement;
   }
   namespace JSX {
     interface IntrinsicElements {
-      'my-component': JSXElements.MyComponentAttributes;
+      'cc-input': JSXElements.CcInputAttributes;
     }
   }
   namespace JSXElements {
-    export interface MyComponentAttributes extends HTMLAttributes {
-      'first'?: string;
-      'last'?: string;
+    export interface CcInputAttributes extends HTMLAttributes {
+      'hours'?: string;
+      'milliseconds'?: string;
+      'minutes'?: string;
+      'seconds'?: string;
     }
   }
 }
