@@ -30,10 +30,7 @@ declare global {
 
   namespace StencilComponents {
     interface CcInput {
-      'hours': string;
-      'milliseconds': string;
-      'minutes': string;
-      'seconds': string;
+      'cards': string[];
     }
   }
 
@@ -56,10 +53,7 @@ declare global {
   }
   namespace JSXElements {
     export interface CcInputAttributes extends HTMLAttributes {
-      'hours'?: string;
-      'milliseconds'?: string;
-      'minutes'?: string;
-      'seconds'?: string;
+      'cards'?: string[];
     }
   }
 }
