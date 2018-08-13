@@ -1,5 +1,6 @@
-$md-gray: #9e9e9e;
 $md-focus: #1e88e5;
+$md-gray: #9e9e9e;
+$md-light-gray: #e0e0e0;
 
 @font-face {
     font-family: 'Material Icons';
@@ -127,8 +128,26 @@ input[type='text'] {
 .allowed-cards-hint {
     margin-top: 10px;
 
+    ul {
+        margin-top: 5px;
+        padding: 0;
+    }
+
     li {
+        align-items: center;
+        background-color: $md-light-gray;
+        border-radius: 5px;
+        display: inline-flex;
+        height: 30px;
+        justify-content: center;
         list-style-type: none;
+        margin-right: 10px;
+        text-align: center;
+        width: 120px;
+
+        &:last-child {
+            margin-right: 0;
+        }
     }
 }
 
