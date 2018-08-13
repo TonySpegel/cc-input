@@ -19,6 +19,7 @@ $md-light-gray: #e0e0e0;
 
 .material-icons {
     font-family: 'Material Icons', sans-serif;
+    font-style: normal;
 }
 
 @mixin standard-curve($property, $timing) {
