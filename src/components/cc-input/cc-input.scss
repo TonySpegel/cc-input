@@ -1,6 +1,25 @@
 $md-gray: #9e9e9e;
 $md-focus: #1e88e5;
 
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url('build/MaterialIcons-Regular.woff2') format('woff2');
+}
+
+.allowed-cards-hint,
+.cc-input,
+.cvc-input {
+    font-family: 'Roboto', sans-serif;
+}
+
+.material-icons {
+    font-family: 'Material Icons', sans-serif;
+}
+
 @mixin standard-curve($property, $timing) {
     transition: $property $timing cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -68,7 +87,7 @@ input[type='text'] {
     grid-template-columns: 82px 20px;
 }
 
-.cvs-input {
+.cvc-input {
     height: 100%;
     text-align: center;
     width: 100%;
@@ -102,6 +121,14 @@ input[type='text'] {
         &:focus {
             color: darken($md-gray, 40%);
         }
+    }
+}
+
+.allowed-cards-hint {
+    margin-top: 10px;
+
+    li {
+        list-style-type: none;
     }
 }
 
