@@ -15,7 +15,11 @@
     "test": "jest",
     "test.watch": "jest --watch"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@types/classnames": "^2.2.6",
+    "classnames": "^2.2.6",
+    "react": "^16.4.2"
+  },
   "devDependencies": {
     "@stencil/core": "^0.11.0",
     "@stencil/sass": "^0.1.0",
