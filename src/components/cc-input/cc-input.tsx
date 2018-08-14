@@ -5,28 +5,35 @@ import {
 } from '@stencil/core';
 
 @Component({
-    tag: "cc-input",
-    styleUrl: "cc-input.scss",
+    tag: 'cc-input',
+    styleUrl: 'cc-input.scss',
     shadow: true
 })
 export class CcInputComponent {
     @Prop() cards: string;
-    @State() cardType: string;
+    @State() acceptAllCards: boolean;
+    @State() cardVendor: string = 'cat';
     @State() isValid: boolean;
-
-    public props = {
-        class: `cc-icon ${this.cardType}`
-    };
+    @State() shake: string = '';
 
     render() {
-        const cards = this.cards.split(",");
-        const cardItems = cards.map(card => <li>{card}</li>);
-        let cardType = `cc-icon ${this.cardType}`;
+        let cardItems;
+
+        if (this.cards.split(',').length === 0) {
+            this.acceptAllCards = true;
+        } else {
+            this.acceptAllCards = false;
+            const cards = this.cards.split(',');
+            cardItems = cards.map(card => <li>{card}</li>);
+        }
+
+        const cardVendor = `cc-icon ${this.cardVendor}`;
+        const gridClass = `grid-mc-gridface ${this.shake}`
 
         return (
-            <div class="grid-mc-gridface">
+            <div class={gridClass}>
                 <span class="cc-input-wrapper cc-material">
-                    <span class={cardType} />
+                    <span class={cardVendor} />
 
                     <input
                         onKeyDown={event => this.handleInput(event)}
@@ -52,7 +59,7 @@ export class CcInputComponent {
                 </span>
                 <div class="allowed-cards-hint">
                     <span>We accept the following cards</span>
-                    <ul>{cardItems}</ul>
+                    <ul>{ cardItems }</ul>
                 </div>
             </div>
         );
@@ -66,12 +73,16 @@ export class CcInputComponent {
      */
     isNumber(e: any): boolean {
         const charCode = e.which ? e.which : e.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            e.preventDefault();
 
+        // Letters
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            this.shake = 'shaker';
+
+            e.preventDefault();
             return false;
         }
 
+        this.shake = '';
         return true;
     }
 
@@ -82,9 +93,8 @@ export class CcInputComponent {
      * @param {string} cardNumber
      * @returns {string}
      */
-    getCardType(cardNumber: string): string {
+    getCardVendor(cardNumber: string): string {
         const visaRegEx = new RegExp('^4');
-        const mastercardRegEx = new RegExp('/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/');
         const amexRegEx = new RegExp('^3[47]');
 
         // Visa
@@ -93,7 +103,7 @@ export class CcInputComponent {
         }
 
         // Mastercard
-        if (mastercardRegEx.test(cardNumber) !== null) {
+        if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(cardNumber)) {
             return 'mastercard';
         }
 
@@ -101,6 +111,8 @@ export class CcInputComponent {
         if (cardNumber.match(amexRegEx) !== null) {
             return 'amex';
         }
+
+        return 'cat';
     }
 
     /**
@@ -110,8 +122,8 @@ export class CcInputComponent {
      */
     handleInput(e: any) {
         if (this.isNumber(e)) {
-            console.log(this.getCardType(e.target.value));
-            this.cardType = this.getCardType(e.target.value);
+            console.log(this.getCardVendor(e.target.value));
+            this.cardVendor = this.getCardVendor(e.target.value);
 
             return false;
         }
