@@ -6,20 +6,18 @@ import {
 
 @Component({
     tag: 'cc-input',
-    styleUrl: 'cc-input.scss',
-    shadow: true
+    styleUrl: 'cc-input.scss'
 })
 export class CcInputComponent {
     @Prop() cards: string;
     @State() acceptAllCards: boolean;
     @State() cardVendor: string = 'cat hashtag';
     @State() isValid: boolean;
-    @State() shake: string = '';
     @State() notAllowed: string = ''
+    @State() shake: string = '';
     private cardItems;
 
     render() {
-
         if (this.cards.split(',').length === 0) {
             this.acceptAllCards = true;
         } else {
@@ -79,6 +77,7 @@ export class CcInputComponent {
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
             this.shake = 'shaker';
 
+            // Don't judge me :(
             setTimeout(() => {
                 this.shake = '';
             }, 1000)
@@ -103,13 +102,9 @@ export class CcInputComponent {
         const masterCardRegEx = new RegExp('^5[1-5]');
         const visaRegEx = new RegExp('^4');
 
-        console.log(cardNumber.length);
-
+        // No card at all
         if (cardNumber.length === 0) {
             this.notAllowed = 'hashtag';
-            // console.log('###');
-
-            // console.log(this.notAllowed);
 
             return 'cat hashtag';
         }
@@ -136,16 +131,17 @@ export class CcInputComponent {
             return 'diners-club';
         }
 
-        console.log('keine Karte');
-
         return 'cat hashtag';
-
-        // Mastercard
-        // if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(cardNumber)) {
-        //     return 'mastercard';
-        // }
     }
 
+
+    /**
+     * Checks if the current vendor is included in vendorList
+     *
+     * @param {string} vendor
+     * @param {string[]} vendorList
+     * @returns {boolean}
+     */
     isAcceptedCard(vendor: string, vendorList: string[]): boolean {
         if(!vendorList.includes(vendor)) {
             this.notAllowed = 'gray';
@@ -160,12 +156,11 @@ export class CcInputComponent {
      * Handles every input
      *
      * @param e
+     * @returns void
      */
-    handleInput(e: any) {
+    handleInput(e: any): void {
         this.cardVendor = this.getCardVendor(e.target.value);
         let cards = this.cards.split(',');
         this.isAcceptedCard(this.cardVendor, cards);
-
-        return false;
     }
 }
