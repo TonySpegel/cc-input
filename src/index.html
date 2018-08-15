@@ -15,6 +15,7 @@
                 background: linear-gradient(to right, #8e9eab, #eef2f3);
                 display: flex;
                 flex-direction: column;
+                font-family: 'Roboto', sans-serif;
                 height: 100vh;
                 justify-content: center;
                 margin: 0;
@@ -22,11 +23,51 @@
 
             h1 {
                 color: #424242;
-                font-family: 'Roboto', sans-serif;
                 font-size: 28pt;
+            }
+
+            .example {
+                border-top: 2px solid #eee;
+                display: flex;
+                justify-content: space-between;
+                margin: 60px auto 0;
+                padding-top: 15px;
+                width: 505px;
             }
         </style>
         <h1>Custom-Element w/ Stencil</h1>
-        <cc-input cards="Visa, Mastercard"></cc-input>
+        <cc-input cards="visa,mastercard,amex"></cc-input>
+
+        <div class="example">
+            <span>
+                <span>Amex</span>
+                <ul>
+                    <li>34</li>
+                    <li>37</li>
+                </ul>
+            </span>
+
+            <span>
+                <span>Diners Club</span>
+                <ul>
+                    <li>36</li>
+                    <li>38</li>
+                </ul>
+            </span>
+
+            <span>
+                <span>Mastercard</span>
+                <ul>
+                    <li>51-55</li>
+                </ul>
+            </span>
+
+            <span>
+                <span>Visa</span>
+                <ul>
+                    <li>4</li>
+                </ul>
+            </span>
+        </div>
     </body>
 </html>

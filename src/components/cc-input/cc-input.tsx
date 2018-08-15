@@ -12,22 +12,23 @@ import {
 export class CcInputComponent {
     @Prop() cards: string;
     @State() acceptAllCards: boolean;
-    @State() cardVendor: string = 'cat';
+    @State() cardVendor: string = 'cat hashtag';
     @State() isValid: boolean;
     @State() shake: string = '';
+    @State() notAllowed: string = ''
+    private cardItems;
 
     render() {
-        let cardItems;
 
         if (this.cards.split(',').length === 0) {
             this.acceptAllCards = true;
         } else {
-            this.acceptAllCards = false;
             const cards = this.cards.split(',');
-            cardItems = cards.map(card => <li>{card}</li>);
+            this.acceptAllCards = false;
+            this.cardItems = cards.map(card => <li>{card}</li>);
         }
 
-        const cardVendor = `cc-icon ${this.cardVendor}`;
+        const cardVendor = `cc-icon ${this.cardVendor} ${this.notAllowed}`;
         const gridClass = `grid-mc-gridface ${this.shake}`
 
         return (
@@ -36,7 +37,7 @@ export class CcInputComponent {
                     <span class={cardVendor} />
 
                     <input
-                        onKeyDown={event => this.handleInput(event)}
+                        onKeyDown={event => this.isNumber(event)}
                         onKeyUp={event => this.handleInput(event)}
                         class="cc-input"
                         maxlength="16"
@@ -59,7 +60,7 @@ export class CcInputComponent {
                 </span>
                 <div class="allowed-cards-hint">
                     <span>We accept the following cards</span>
-                    <ul>{ cardItems }</ul>
+                    <ul>{ this.cardItems }</ul>
                 </div>
             </div>
         );
@@ -78,11 +79,14 @@ export class CcInputComponent {
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
             this.shake = 'shaker';
 
+            setTimeout(() => {
+                this.shake = '';
+            }, 1000)
+
             e.preventDefault();
             return false;
         }
 
-        this.shake = '';
         return true;
     }
 
@@ -94,16 +98,31 @@ export class CcInputComponent {
      * @returns {string}
      */
     getCardVendor(cardNumber: string): string {
-        const visaRegEx = new RegExp('^4');
         const amexRegEx = new RegExp('^3[47]');
+        const dinersRegEx = new RegExp('^3[68]');
+        const masterCardRegEx = new RegExp('^5[1-5]');
+        const visaRegEx = new RegExp('^4');
+
+        console.log(cardNumber.length);
+
+        if (cardNumber.length === 0) {
+            this.notAllowed = 'hashtag';
+            // console.log('###');
+
+            // console.log(this.notAllowed);
+
+            return 'cat hashtag';
+        }
 
         // Visa
         if (cardNumber.match(visaRegEx) !== null) {
+            console.log('visa');
+
             return 'visa';
         }
 
         // Mastercard
-        if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(cardNumber)) {
+        if (cardNumber.match(masterCardRegEx) !== null) {
             return 'mastercard';
         }
 
@@ -112,7 +131,29 @@ export class CcInputComponent {
             return 'amex';
         }
 
-        return 'cat';
+        // Diners-Club
+        if (cardNumber.match(dinersRegEx) !== null) {
+            return 'diners-club';
+        }
+
+        console.log('keine Karte');
+
+        return 'cat hashtag';
+
+        // Mastercard
+        // if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(cardNumber)) {
+        //     return 'mastercard';
+        // }
+    }
+
+    isAcceptedCard(vendor: string, vendorList: string[]): boolean {
+        if(!vendorList.includes(vendor)) {
+            this.notAllowed = 'gray';
+
+            return false;
+        }
+
+        this.notAllowed = 'hashtag';
     }
 
     /**
@@ -121,11 +162,10 @@ export class CcInputComponent {
      * @param e
      */
     handleInput(e: any) {
-        if (this.isNumber(e)) {
-            console.log(this.getCardVendor(e.target.value));
-            this.cardVendor = this.getCardVendor(e.target.value);
+        this.cardVendor = this.getCardVendor(e.target.value);
+        let cards = this.cards.split(',');
+        this.isAcceptedCard(this.cardVendor, cards);
 
-            return false;
-        }
+        return false;
     }
 }

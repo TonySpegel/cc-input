@@ -171,6 +171,7 @@ input[type='text'] {
         list-style-type: none;
         margin-right: 10px;
         text-align: center;
+        text-transform: capitalize;
         width: 120px;
 
         &:last-child {
@@ -180,22 +181,16 @@ input[type='text'] {
 }
 
 // CC-Icons----------------------------
-.cat {
-    background-position: -554px -5px;
+.amex { background-position: -281px -365px; }
+.cat { background-position: -554px -5px; }
+.diners-club { background-position: -143px -5px; }
+.maestro { background-position: -281px -455px; }
+.mastercard { background-position: -281px -275px; }
+.visa { background-position: -5px -5px; }
+.gray {
+    filter: grayscale(100%);
 }
 
-.visa {
-    background-position: -5px -5px;
-}
-
-.mastercard {
-    background-position: -281px -275px;
-}
-
-.maestro {
-    background-position: -281px -455px;
-}
-
-.american-express {
-    background-position: -281px -365px;
+.hashtag {
+    filter: none;
 }
